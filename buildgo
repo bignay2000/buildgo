@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Installs script as a new program called buildgo
+# Then you can run "buildgo blah.go"
+
+version=1.0
+
+set -e
+
+#Launch the golang docker container and have it compile for a specific OS.
+godockerbuilder () #helloworld.go windows
+{
+    echo "#################################################"
+    filename=$(echo $1 | cut -d'.' -f1)
+    echo "Building $filename$2amd64"
+    mkdir tmp
+    cp $1 tmp
+    cd tmp
+    docker run --rm -v "$PWD":/usr/src/$filename$2amd64 -w /usr/src/$filename$2amd64 -e GOOS=$2 -e GOARCH=amd64 golang go build -v
+    rm hivehelloworld.go
+    cp * ../
+    cd ../
+    rm -rf tmp
+}
+
+
+if [[ ! -f /usr/local/bin/buildgo ]] #Install the script to the local machine if not already installed
+then
+    echo "Did not find /usr/local/bin/buildgo"
+    echo "Installing buildgo"
+    echo "cp buildgo /usr/local/bin/"
+	cp buildgo /usr/local/bin/
+	chmod +x /usr/local/bin/buildgo
+fi
+
+if [[ $# -lt 1 ]]   #echo version if no go file is specified
+then
+    echo "buildgo version $version"
+    echo "Please specify .go filename"
+elif [[ -f $1 ]]
+then
+    godockerbuilder $1 windows
+    godockerbuilder $1 linux
+    godockerbuilder $1 darwin
+
+else
+    echo "ERROR: Could not find $1 in the current directory"
+fi
+
+echo "Done"
