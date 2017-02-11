@@ -1,7 +1,10 @@
 #!/bin/bash
 
+# https://github.com/bignay2000/buildgo.git
 # Installs script as a new program called buildgo
 # Then you can run "buildgo blah.go"
+# https://hub.docker.com/_/golang/
+
 
 version=1.0
 
