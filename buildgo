@@ -6,7 +6,7 @@
 # https://hub.docker.com/_/golang/
 
 
-version=1.1.1
+version=1.1.2
 
 set -e
 
