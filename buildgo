@@ -6,7 +6,7 @@
 # https://hub.docker.com/_/golang/
 
 
-version=1.1
+version=1.1.1
 
 set -e
 
@@ -44,6 +44,7 @@ then
     godockerbuilder $1 windows amd64
     godockerbuilder $1 linux amd64
     godockerbuilder $1 linux arm64
+    godockerbuilder $1 linux arm
     godockerbuilder $1 darwin amd64
 
 else
