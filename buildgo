@@ -6,7 +6,7 @@
 # https://hub.docker.com/_/golang/
 
 
-version=1.0
+version=1.1
 
 set -e
 
@@ -15,12 +15,11 @@ godockerbuilder () #helloworld.go windows
 {
     echo "#################################################"
     filename=$(echo $1 | cut -d'.' -f1)
-    echo "Building $filename$2amd64"
+    echo "Building $filename$2$3"
     mkdir tmp
     cp $1 tmp
     cd tmp
-    docker run --rm -v "$PWD":/usr/src/$filename$2amd64 -w /usr/src/$filename$2amd64 -e GOOS=$2 -e GOARCH=amd64 golang go build -v
-    rm hivehelloworld.go
+    docker run --rm -v "$PWD":/usr/src/$filename$2$3 -w /usr/src/$filename$2$3 -e GOOS=$2 -e GOARCH=$3 golang go build -v
     cp * ../
     cd ../
     rm -rf tmp
@@ -42,9 +41,10 @@ then
     echo "Please specify .go filename"
 elif [[ -f $1 ]]
 then
-    godockerbuilder $1 windows
-    godockerbuilder $1 linux
-    godockerbuilder $1 darwin
+    godockerbuilder $1 windows amd64
+    godockerbuilder $1 linux amd64
+    godockerbuilder $1 linux arm64
+    godockerbuilder $1 darwin amd64
 
 else
     echo "ERROR: Could not find $1 in the current directory"
