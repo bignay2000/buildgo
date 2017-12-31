@@ -39,6 +39,22 @@ if [[ $# -lt 1 ]]   #echo version if no go file is specified
 then
     echo "buildgo version $version"
     echo "Please specify .go filename"
+    echo "To uninstall: buildgo --uninstall"
+
+elif [[ $1 == "--uninstall" ]]
+then
+    echo "Uninstalling buildgo"
+    echo "rm /usr/local/bin/buildgo"
+    rm /usr/local/bin/buildgo
+
+elif [[ $1 == "-v" ]]
+then
+    echo "buildgo version $version"
+
+elif [[ $1 == "--version" ]]
+then
+    echo "buildgo version $version"
+
 elif [[ -f $1 ]]
 then
     godockerbuilder $1 windows amd64
